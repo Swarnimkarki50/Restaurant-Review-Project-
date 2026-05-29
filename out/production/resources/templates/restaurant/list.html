@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Restaurant List</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>🍽 Restaurant List</h1>
+
+    <div class="menu">
+        <a href="/">Home</a>
+
+        <span th:if="${session.loginMember != null}">
+            <a href="/restaurants/add">Add Restaurant</a>
+            <a href="/member/logout">Logout</a>
+        </span>
+
+        <span th:if="${session.loginMember == null}">
+            <a href="/member/login">Login</a>
+        </span>
+    </div>
+
+    <div class="restaurant-grid">
+        <div class="restaurant-card" th:each="restaurant : ${restaurants}">
+            <img th:if="${restaurant.imageName != null}"
+                 th:src="@{'/uploads/' + ${restaurant.imageName}}">
+
+            <div class="card-body">
+                <h2 th:text="${restaurant.name}">Restaurant Name</h2>
+                <p th:text="${restaurant.category}">Category</p>
+                <p th:text="${restaurant.location}">Location</p>
+
+                <a th:href="@{'/restaurants/' + ${restaurant.id}}" class="detail-btn">
+                    View Detail
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

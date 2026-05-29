@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Restaurant Detail</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <div class="menu">
+        <a href="/restaurants">Back to List</a>
+        <a href="/">Home</a>
+    </div>
+
+    <div class="detail-box">
+        <img th:if="${restaurant.imageName != null}"
+             th:src="@{'/uploads/' + ${restaurant.imageName}}">
+
+        <div>
+            <h1 th:text="${restaurant.name}">Restaurant Name</h1>
+            <p><strong>Category:</strong> <span th:text="${restaurant.category}"></span></p>
+            <p><strong>Location:</strong> <span th:text="${restaurant.location}"></span></p>
+
+            <h2>
+                ⭐ Average Rating:
+                <span th:text="${#numbers.formatDecimal(averageRating, 1, 1)}">0.0</span>
+            </h2>
+        </div>
+    </div>
+
+    <div class="review-form" th:if="${session.loginMember != null}">
+        <h2>Write Review</h2>
+
+        <form action="/reviews/add" method="post" class="form">
+            <input type="hidden" name="restaurantId" th:value="${restaurant.id}">
+
+            <select name="rating" required>
+                <option value="5">⭐⭐⭐⭐⭐ 5</option>
+                <option value="4">⭐⭐⭐⭐ 4</option>
+                <option value="3">⭐⭐⭐ 3</option>
+                <option value="2">⭐⭐ 2</option>
+                <option value="1">⭐ 1</option>
+            </select>
+
+            <textarea name="content" placeholder="Write your review..." required></textarea>
+
+            <button type="submit">Submit Review</button>
+        </form>
+    </div>
+
+    <div th:if="${session.loginMember == null}" class="login-notice">
+        <p>Please <a href="/member/login">login</a> to write a review.</p>
+    </div>
+
+    <h2>Review List</h2>
+
+    <div class="review-card" th:each="review : ${reviews}">
+        <div class="review-header">
+            <strong th:text="${review.member.name}">User</strong>
+            <span>
+                Rating:
+                <span th:text="${review.rating}">5</span>
+                ⭐
+            </span>
+        </div>
+
+        <p th:text="${review.content}">Review content</p>
+
+        <small th:text="${#temporals.format(review.createdAt, 'yyyy-MM-dd HH:mm')}">
+            date
+        </small>
+    </div>
+
+</div>
+
+</body>
+</html>

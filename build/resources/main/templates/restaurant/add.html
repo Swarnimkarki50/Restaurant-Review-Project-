@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Restaurant</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="container small">
+    <h1>Add Restaurant</h1>
+
+    <form action="/restaurants/add" method="post" enctype="multipart/form-data" class="form">
+        <input type="text" name="name" placeholder="Restaurant name" required>
+        <input type="text" name="category" placeholder="Category ex) Korean, Indian, Fast Food" required>
+        <input type="text" name="location" placeholder="Location" required>
+        <input type="file" name="image" accept="image/*" required>
+
+        <button type="submit">Add Restaurant</button>
+    </form>
+
+    <a href="/restaurants">Back</a>
+</div>
+
+</body>
+</html>

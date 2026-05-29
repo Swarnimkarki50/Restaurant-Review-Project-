@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mini Restaurant Review</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="container center">
+    <h1>🍽 Mini Restaurant Review App</h1>
+    <p class="subtitle">Find restaurants and write reviews!</p>
+
+    <div class="menu">
+        <a href="/restaurants">Restaurant List</a>
+
+        <span th:if="${session.loginMember == null}">
+            <a href="/member/signup">Sign Up</a>
+            <a href="/member/login">Login</a>
+        </span>
+
+        <span th:if="${session.loginMember != null}">
+            <a href="/restaurants/add">Add Restaurant</a>
+            <a href="/member/logout">Logout</a>
+        </span>
+    </div>
+</div>
+
+</body>
+</html>
