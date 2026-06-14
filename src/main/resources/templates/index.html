@@ -2,28 +2,62 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Mini Restaurant Review</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TableFind Restaurant Reviews</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
-<div class="container center">
-    <h1>🍽 Mini Restaurant Review App</h1>
-    <p class="subtitle">Find restaurants and write reviews!</p>
+<div class="shell">
+    <header class="topbar">
+        <a class="brand" href="/">
+            <span class="brand-mark">T</span>
+            <span>TableFind</span>
+        </a>
 
-    <div class="menu">
-        <a href="/restaurants">Restaurant List</a>
+        <nav class="nav">
+            <a href="/restaurants">Restaurants</a>
 
-        <span th:if="${session.loginMember == null}">
-            <a href="/member/signup">Sign Up</a>
-            <a href="/member/login">Login</a>
-        </span>
+            <span th:if="${session.loginMember == null}">
+                <a href="/member/signup">Sign up</a>
+                <a class="primary" href="/member/login">Log in</a>
+            </span>
 
-        <span th:if="${session.loginMember != null}">
-            <a href="/restaurants/add">Add Restaurant</a>
-            <a href="/member/logout">Logout</a>
-        </span>
-    </div>
+            <span th:if="${session.loginMember != null}">
+                <a class="primary" href="/restaurants/add">Add restaurant</a>
+                <a href="/member/logout">Logout</a>
+            </span>
+        </nav>
+    </header>
+
+    <main class="hero">
+        <section class="hero-content">
+            <p class="eyebrow">Local dining, reviewed by real guests</p>
+            <h1>Find the next table worth talking about.</h1>
+            <p class="subtitle">Browse neighborhood favorites, save memorable spots, and share honest reviews that help others choose where to eat next.</p>
+
+            <div class="hero-actions">
+                <a class="primary" href="/restaurants">Explore restaurants</a>
+                <a class="secondary" th:if="${session.loginMember == null}" href="/member/signup">Join the community</a>
+                <a class="secondary" th:if="${session.loginMember != null}" href="/restaurants/add">Add your pick</a>
+            </div>
+        </section>
+    </main>
+
+    <section class="feature-strip" aria-label="Highlights">
+        <div class="feature">
+            <strong>Curated places</strong>
+            <span>Keep restaurant discovery focused on food, location, and real impressions.</span>
+        </div>
+        <div class="feature">
+            <strong>Photo-first browsing</strong>
+            <span>See the atmosphere and dishes before opening a detailed review page.</span>
+        </div>
+        <div class="feature">
+            <strong>Community reviews</strong>
+            <span>Logged-in members can rate, review, and add new restaurants.</span>
+        </div>
+    </section>
 </div>
 
 </body>

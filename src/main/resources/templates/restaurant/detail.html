@@ -2,78 +2,98 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Restaurant Detail</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${restaurant.name} + ' | TableFind'">Restaurant Detail</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
-<div class="container">
+<header class="topbar">
+    <a class="brand" href="/">
+        <span class="brand-mark">T</span>
+        <span>TableFind</span>
+    </a>
 
-    <div class="menu">
-        <a href="/restaurants">Back to List</a>
+    <nav class="nav">
+        <a href="/restaurants">Restaurants</a>
         <a href="/">Home</a>
-    </div>
+    </nav>
+</header>
 
-    <div class="detail-box">
+<main class="container">
+
+    <section class="detail-box surface">
         <img th:if="${restaurant.imageName != null}"
-             th:src="@{'/uploads/' + ${restaurant.imageName}}">
+             th:src="@{'/uploads/' + ${restaurant.imageName}}"
+             th:alt="${restaurant.name}">
+        <div th:if="${restaurant.imageName == null}" class="image-placeholder">TableFind</div>
 
-        <div>
+        <div class="detail-content">
+            <p class="eyebrow">Restaurant profile</p>
             <h1 th:text="${restaurant.name}">Restaurant Name</h1>
-            <p><strong>Category:</strong> <span th:text="${restaurant.category}"></span></p>
-            <p><strong>Location:</strong> <span th:text="${restaurant.location}"></span></p>
+            <span class="pill" th:text="${restaurant.category}">Category</span>
+            <p class="meta-row"><strong>Location:</strong> <span th:text="${restaurant.location}"></span></p>
 
-            <h2>
-                ⭐ Average Rating:
-                <span th:text="${#numbers.formatDecimal(averageRating, 1, 1)}">0.0</span>
-            </h2>
+            <div class="rating-panel">
+                <span class="muted">Average rating</span>
+                <span class="rating-number" th:text="${#numbers.formatDecimal(averageRating, 1, 1)}">0.0</span>
+            </div>
         </div>
-    </div>
+    </section>
 
-    <div class="review-form" th:if="${session.loginMember != null}">
-        <h2>Write Review</h2>
+    <section class="content-grid">
+        <div class="review-form" th:if="${session.loginMember != null}">
+            <h2>Write a review</h2>
 
-        <form action="/reviews/add" method="post" class="form">
-            <input type="hidden" name="restaurantId" th:value="${restaurant.id}">
+            <form action="/reviews/add" method="post" class="form">
+                <input type="hidden" name="restaurantId" th:value="${restaurant.id}">
 
-            <select name="rating" required>
-                <option value="5">⭐⭐⭐⭐⭐ 5</option>
-                <option value="4">⭐⭐⭐⭐ 4</option>
-                <option value="3">⭐⭐⭐ 3</option>
-                <option value="2">⭐⭐ 2</option>
-                <option value="1">⭐ 1</option>
-            </select>
+                <label for="rating">Rating</label>
+                <select id="rating" name="rating" required>
+                    <option value="5">5 - Excellent</option>
+                    <option value="4">4 - Great</option>
+                    <option value="3">3 - Good</option>
+                    <option value="2">2 - Fair</option>
+                    <option value="1">1 - Poor</option>
+                </select>
 
-            <textarea name="content" placeholder="Write your review..." required></textarea>
+                <label for="content">Review</label>
+                <textarea id="content" name="content" placeholder="Share what stood out: food, service, atmosphere, or value." required></textarea>
 
-            <button type="submit">Submit Review</button>
-        </form>
-    </div>
-
-    <div th:if="${session.loginMember == null}" class="login-notice">
-        <p>Please <a href="/member/login">login</a> to write a review.</p>
-    </div>
-
-    <h2>Review List</h2>
-
-    <div class="review-card" th:each="review : ${reviews}">
-        <div class="review-header">
-            <strong th:text="${review.member.name}">User</strong>
-            <span>
-                Rating:
-                <span th:text="${review.rating}">5</span>
-                ⭐
-            </span>
+                <button type="submit">Submit review</button>
+            </form>
         </div>
 
-        <p th:text="${review.content}">Review content</p>
+        <div th:if="${session.loginMember == null}" class="login-notice">
+            <h2>Want to review this place?</h2>
+            <p class="muted">Log in to rate restaurants and share your experience with the community.</p>
+            <a class="link-btn" href="/member/login">Log in</a>
+        </div>
 
-        <small th:text="${#temporals.format(review.createdAt, 'yyyy-MM-dd HH:mm')}">
-            date
-        </small>
-    </div>
+        <div class="review-list">
+            <h2>Reviews</h2>
 
-</div>
+            <div class="empty-state" th:if="${#lists.isEmpty(reviews)}">
+                <p>No reviews yet. Be the first to share a rating.</p>
+            </div>
+
+            <div class="review-card" th:each="review : ${reviews}">
+                <div class="review-header">
+                    <strong th:text="${review.member.name}">User</strong>
+                    <span class="review-rating">
+                        <span th:text="${review.rating}">5</span>/5
+                    </span>
+                </div>
+
+                <p th:text="${review.content}">Review content</p>
+
+                <small th:text="${#temporals.format(review.createdAt, 'yyyy-MM-dd HH:mm')}">
+                    date
+                </small>
+            </div>
+        </div>
+    </section>
+</main>
 
 </body>
 </html>

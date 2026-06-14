@@ -2,25 +2,51 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Add Restaurant</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Restaurant | TableFind</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
-<div class="container small">
-    <h1>Add Restaurant</h1>
+<header class="topbar">
+    <a class="brand" href="/">
+        <span class="brand-mark">T</span>
+        <span>TableFind</span>
+    </a>
 
-    <form action="/restaurants/add" method="post" enctype="multipart/form-data" class="form">
-        <input type="text" name="name" placeholder="Restaurant name" required>
-        <input type="text" name="category" placeholder="Category ex) Korean, Indian, Fast Food" required>
-        <input type="text" name="location" placeholder="Location" required>
-        <input type="file" name="image" accept="image/*" required>
+    <nav class="nav">
+        <a href="/restaurants">Restaurants</a>
+        <a href="/">Home</a>
+    </nav>
+</header>
 
-        <button type="submit">Add Restaurant</button>
-    </form>
+<main class="container small">
+    <section class="auth-card">
+        <p class="eyebrow">Community pick</p>
+        <h1>Add a restaurant</h1>
+        <p>Share a place worth visiting with the TableFind community.</p>
 
-    <a href="/restaurants">Back</a>
-</div>
+        <form action="/restaurants/add" method="post" enctype="multipart/form-data" class="form">
+            <label for="name">Restaurant name</label>
+            <input id="name" type="text" name="name" placeholder="Restaurant name" required>
+
+            <label for="category">Category</label>
+            <input id="category" type="text" name="category" placeholder="Korean, Indian, Fast Food" required>
+
+            <label for="location">Location</label>
+            <input id="location" type="text" name="location" placeholder="City or neighborhood" required>
+
+            <label for="image">Restaurant photo</label>
+            <input id="image" type="file" name="image" accept="image/*" required>
+
+            <button type="submit">Add restaurant</button>
+        </form>
+
+        <div class="form-footer">
+            <a class="link-btn" href="/restaurants">Back to restaurants</a>
+        </div>
+    </section>
+</main>
 
 </body>
 </html>

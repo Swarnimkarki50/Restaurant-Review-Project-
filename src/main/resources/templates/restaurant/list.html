@@ -2,44 +2,63 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Restaurant List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurants | TableFind</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
-<div class="container">
-    <h1>🍽 Restaurant List</h1>
+<header class="topbar">
+    <a class="brand" href="/">
+        <span class="brand-mark">T</span>
+        <span>TableFind</span>
+    </a>
 
-    <div class="menu">
+    <nav class="nav">
         <a href="/">Home</a>
-
         <span th:if="${session.loginMember != null}">
-            <a href="/restaurants/add">Add Restaurant</a>
+            <a class="primary" href="/restaurants/add">Add restaurant</a>
             <a href="/member/logout">Logout</a>
         </span>
-
         <span th:if="${session.loginMember == null}">
-            <a href="/member/login">Login</a>
+            <a class="primary" href="/member/login">Log in</a>
         </span>
-    </div>
+    </nav>
+</header>
+
+<main class="container">
+    <section class="page-header">
+        <div>
+            <p class="eyebrow">Restaurant guide</p>
+            <h1>Discover places to eat well.</h1>
+            <p class="muted">Browse restaurants added by the community and open the details for photos, ratings, and reviews.</p>
+        </div>
+    </section>
 
     <div class="restaurant-grid">
+        <div class="empty-state" th:if="${#lists.isEmpty(restaurants)}">
+            <h2>No restaurants yet</h2>
+            <p>Add the first restaurant and start building the guide.</p>
+        </div>
+
         <div class="restaurant-card" th:each="restaurant : ${restaurants}">
             <img th:if="${restaurant.imageName != null}"
-                 th:src="@{'/uploads/' + ${restaurant.imageName}}">
+                 th:src="@{'/uploads/' + ${restaurant.imageName}}"
+                 th:alt="${restaurant.name}">
+            <div th:if="${restaurant.imageName == null}" class="image-placeholder">TableFind</div>
 
             <div class="card-body">
                 <h2 th:text="${restaurant.name}">Restaurant Name</h2>
-                <p th:text="${restaurant.category}">Category</p>
-                <p th:text="${restaurant.location}">Location</p>
+                <span class="pill" th:text="${restaurant.category}">Category</span>
+                <p class="meta-row" th:text="${restaurant.location}">Location</p>
 
                 <a th:href="@{'/restaurants/' + ${restaurant.id}}" class="detail-btn">
-                    View Detail
+                    View details
                 </a>
             </div>
         </div>
     </div>
-</div>
+</main>
 
 </body>
 </html>
