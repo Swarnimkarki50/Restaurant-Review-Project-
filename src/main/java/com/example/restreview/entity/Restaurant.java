@@ -1,6 +1,7 @@
 package com.example.restreview.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Entity
@@ -15,8 +16,14 @@ public class Restaurant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     private String name;
+
+    @NotBlank
     private String category;
+
+    @NotBlank
     private String location;
+
     private String imageName;
 }

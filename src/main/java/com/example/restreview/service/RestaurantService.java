@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,7 +28,7 @@ public class RestaurantService {
                 File uploadDir = new File(System.getProperty("user.dir") + "/uploads/");
 
                 if (!uploadDir.exists()) {
-                    uploadDir.mkdir();
+                    uploadDir.mkdirs();
                 }
 
                 File saveFile = new File(uploadDir, imageName);
@@ -43,7 +44,7 @@ public class RestaurantService {
 
             restaurantRepository.save(restaurant);
 
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new RuntimeException("Restaurant image upload error", e);
         }
     }

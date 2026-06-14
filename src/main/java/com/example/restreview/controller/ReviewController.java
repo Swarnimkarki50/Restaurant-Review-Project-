@@ -15,10 +15,10 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping("/add")
-    public String addReview(@RequestParam Long restaurantId, @RequestParam String content, @RequestParam int rating, HttpSession session ) {
-        Member loginMember = (Member) session.getAttribute("loginMember");
+    public String addReview(@RequestParam Long restaurantId, @RequestParam String content, @RequestParam int rating, HttpSession session) {
+        Object loginObj = session.getAttribute("loginMember");
 
-        if (loginMember == null) {
+        if (!(loginObj instanceof Member loginMember)) {
             return "redirect:/member/login";
         }
 

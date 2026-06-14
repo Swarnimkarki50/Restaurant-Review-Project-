@@ -3,6 +3,7 @@ package com.example.restreview.service;
 import com.example.restreview.entity.Member;
 import com.example.restreview.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public void signup(String name, String email, String password) {
         if (memberRepository.findByEmail(email).isPresent()) {
@@ -19,14 +21,15 @@ public class MemberService {
         Member member = Member.builder()
                 .name(name)
                 .email(email)
-                .password(password)
+                .password(passwordEncoder.encode(password))
                 .build();
 
         memberRepository.save(member);
     }
 
     public Member login(String email, String password) {
-        return memberRepository.findByEmailAndPassword(email, password)
+        return memberRepository.findByEmail(email)
+                .filter(m -> passwordEncoder.matches(password, m.getPassword()))
                 .orElse(null);
     }
 }
